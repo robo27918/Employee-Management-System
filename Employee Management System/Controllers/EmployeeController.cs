@@ -16,11 +16,7 @@ namespace Employee_Management_System.Controllers
         {
             _context = context;
         }
-        //public IActionResult Index()
-        //{
-        //    var employees = _context.Employees.ToList();
-        //    return View(employees);
-        // }
+      
         //Get employees:
         public async Task<IActionResult> Index()
         {
@@ -30,22 +26,31 @@ namespace Employee_Management_System.Controllers
         //Get Employees/Create
         public IActionResult Create()
         {
+            Console.WriteLine("Create method has been invoked.");
             return View();
         }
 
         //POST Employee/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("EmployeeId,FirstName,LastName" +
-            ",Postion,Salary,Department")] Employee employee)
+        public async Task<IActionResult> Create([Bind("FirstName,LastName" +
+            ",Position,Salary,Department")] Employee employee)
         {
+            Console.WriteLine("Create method has been invoked.");
             if (ModelState.IsValid)
             {
+                Console.WriteLine("model valid...");
+
                 _context.Add(employee);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
+
+                //how to indicate success submit
+                //pop up indicating so
+                //clear the input
 
             }
+            // else {red pop up and don't clear data}
             return View(employee);
         }
 
@@ -95,7 +100,7 @@ namespace Employee_Management_System.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
             }
             return View(employee);
         }
