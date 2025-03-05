@@ -1,16 +1,6 @@
 ﻿@using Employee_Management_System.Models
 @model IEnumerable<Employee_Management_System.Models.Employee>
-<ul class="nav">
-    <li class="nav-item">
-        <a class="nav-link active" href="@Url.Action("Create","Employee")">Create New Employee</a>
 
-    </li>
-    <li class="nav-item">
-        <a class="nav-link active" href="@Url.Action("Search")">Search</a>
-    </li>
-    
-
-</ul>
 <h2>Employee List</h2>
 
 
@@ -39,9 +29,14 @@
                     <td>@employee.Salary</td>
                     <td>@employee.Department</td>
                     <td>
-                        <a asp-controller="Employee" asp-action="Edit" asp-route-id="@employee.EmployeeId">Edit</a>
-                        <a href="@Url.Action("Delete", new{id=employee.EmployeeId})">Delete</a>
+                        <div class="container d-md-inline-flex gap-lg-4">
+                            
+                            <button class="btn btn-primary"><a class="text-white" asp-controller="Employee" asp-action="Edit" asp-route-id="@employee.EmployeeId">Edit</a></button>
+                            <button class="delete-button btn btn-danger"  data-id="@employee.EmployeeId">Delete</button>
 
+
+                        </div>
+                
                     </td>
                 </tr>
             }
@@ -53,4 +48,35 @@
 else
 {
     <p>No employees found</p>
+}
+@section Scripts{
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $(".delete-button").click(function(){
+                console.log('clicked delete')
+                let employeeId = $(this).data("id")
+                console.log("employeeID:",employeeId)
+
+                $.ajax({
+                    url:"@Url.Action("Delete","Employee")",
+                    type:'POST',
+                    data:{id:employeeId},
+                    success:function(response){
+                        if (response.success){
+                            //remove the deleted employee row from the table
+                            $("button[data-id='" + employeeId + "']").closest('tr').remove();
+
+                        }
+                        else{
+                            alert("Error deleting employee")
+                        }
+                    },
+                    error:function(){
+                        alert("An error occured while deleting the employee")
+                    }
+                })
+            })
+        })
+    </script>
 }

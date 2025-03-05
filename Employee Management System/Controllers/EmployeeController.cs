@@ -105,31 +105,42 @@ namespace Employee_Management_System.Controllers
             return View(employee);
         }
 
-        //GET:Employee/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if(id == null)
-            {
-                return NotFound();
-            }
-            var employee = await _context.Employees
-                .FirstOrDefaultAsync(m => m.EmployeeId == id);
-            if(employee == null)
-            {
-                return NotFound();
-            }
-            return View(employee);
-        }
+        ////GET:Employee/Delete/5
+        //public async Task<IActionResult> Delete(int? id)
+        //{
+        //    if(id == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    var employee = await _context.Employees
+        //        .FirstOrDefaultAsync(m => m.EmployeeId == id);
+        //    if(employee == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return View(employee);
+        //}
 
         //POST:Employee/Delete/5
-        [HttpPost,ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult>DeleteConfirmed(int id)
+        //[HttpPost,ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult>DeleteConfirmed(int id)
+        //{
+        //    var employee = await _context.Employees.FindAsync(id);
+        //    _context.Employees.Remove(employee);
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
+        [HttpPost]
+        public IActionResult Delete(int id)
         {
-            var employee = await _context.Employees.FindAsync(id);
-            _context.Employees.Remove(employee);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var employee = _context.Employees.FirstOrDefault(e => e.EmployeeId == id);
+            if(employee != null)
+            {
+                _context.Employees.Remove(employee);
+                _context.SaveChanges();
+            }
+            return Json(new { success = true });
         }
         private bool EmployeeExists(int id)
         {
