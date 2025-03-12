@@ -8,5 +8,12 @@
         public string Position { get; set; }
         public decimal Salary { get; set; }
         public string Department { get; set; }
+        
+        //Foreign keys
+        public int DepartmentID { get; set; }
+        public Department department { get; set; }
+
+        public int JobTitleID { get; set; }
+        public JobTitle JobTitle { get; set; }
     }
 }

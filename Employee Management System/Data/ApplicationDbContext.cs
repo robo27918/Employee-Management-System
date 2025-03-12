@@ -7,6 +7,8 @@ namespace Employee_Management_System.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             :base(options){}
         public DbSet<Employee>Employees { get; set; }
+        public DbSet<Department> Departments { get; set; }
+        public DbSet<JobTitle> JobTitles { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -20,6 +22,12 @@ namespace Employee_Management_System.Data
                 new Employee { EmployeeId = 7, FirstName = "Michael", LastName = "Davis", Position = "Product Designer", Department = "Design", Salary = 72000 }
             );
 
+            modelBuilder.Entity<Department>().HasData(
+                new Department {ID=1,name="Information Technology" });
+            
+            modelBuilder.Entity<JobTitle>().HasData(
+                new JobTitle {ID=1,Title="Software Engineer" }
+           );
         }
 
     }
