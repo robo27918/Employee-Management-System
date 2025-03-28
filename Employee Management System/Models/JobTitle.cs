@@ -6,7 +6,7 @@
         public string Title { get; set; }
 
         //Navigation property
-        public List<Employee> employees { get; set; }
+        public List<Employee> Employees { get; set; }
 
     }
 }
